@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser } from '../actions';
+import { setCurrentUser } from '../../actions'
+import styles from './Login.module.css';
 
-const LoginForm = () => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ const LoginForm = () => {
 
       if (response.status === 200) {
         const userInfo = response.data.user;
-        
+
         dispatch(setCurrentUser(userInfo));
 
         if (userInfo.role === 'admin') {
@@ -35,18 +36,28 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles['login']} onSubmit={handleSubmit}>
       <label htmlFor="username">Логин:</label>
-      <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+      <input
+        type="text"
+        id="username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
 
       <label htmlFor="password">Пароль:</label>
-      <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <input
+        type="password"
+        id="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      {errorMessage && <p>{errorMessage}</p>}
 
       <button type="submit">Войти</button>
     </form>
   );
 };
 
-export default LoginForm;
+export default Login;

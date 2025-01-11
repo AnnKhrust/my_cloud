@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styles from './UserFileManager.module.css';
 
 const UserFileManager = ({ userId }) => {
   const [files, setFiles] = useState([]);
@@ -54,7 +55,7 @@ const UserFileManager = ({ userId }) => {
   }
 
   return (
-    <div className="file-manager">
+    <div className={styles['file-manager']}>
       <h2>Файлы пользователя</h2>
       <table>
         <thead>

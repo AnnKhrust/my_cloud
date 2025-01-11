@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import styles from './AdminPage.module.css'; 
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -7,7 +8,7 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem('token'); 
+        const token = localStorage.getItem('token');
         const config = {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -25,7 +26,7 @@ const AdminPage = () => {
   }, []);
 
   return (
-    <div className="admin-page">
+    <div className={styles['admin-page']}>
       <h1>Панель администратора</h1>
       <h2>Список пользователей</h2>
       <ul>

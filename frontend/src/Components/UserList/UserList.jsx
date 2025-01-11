@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styles from './UserList.module.css'; // Подключение стилей
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -40,7 +41,7 @@ const UserList = () => {
       await axios.patch(`https://your-api-url/admin/user/${userId}/toggle-admin`, {}, config);
       const updatedUsers = users.map(user => {
         if (user.id === userId) {
-          return {...user, is_admin: !user.is_admin};
+          return { ...user, is_admin: !user.is_admin };
         }
         return user;
       });
@@ -76,7 +77,7 @@ const UserList = () => {
   }
 
   return (
-    <div className="user-list">
+    <div className={styles['user-list']}>
       <h2>Список пользователей</h2>
       <table>
         <thead>

@@ -1,0 +1,48 @@
+.file-manager {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+  
+.file-manager table {
+    width: 100%;
+    border-collapse: collapse;
+}
+  
+.file-manager th,
+.file-manager td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+  
+.file-manager thead th {
+    background-color: #f9f9f9;
+}
+  
+.file-manager tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+  
+.file-manager button {
+    margin-right: 10px;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+}
+  
+.file-manager button:hover {
+    background-color: #f0f0f0;
+}
+  
+.file-manager input[type="file"] {
+    margin: 10px 0;
+}
+  
+.file-manager input[type="text"] {
+    width: 200px;
+    padding: 6px 12px;
+    margin: 10px 0;
+}

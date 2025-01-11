@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
+import styles from './Registration.module.css'
 
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
@@ -37,30 +38,31 @@ const RegisterForm = () => {
     let errors = {};
 
     if (!username.match(/^[a-zA-Z][a-zA-Z0-9]{3,19}$/)) {
-      errors.username = 'Логин должен начинаться с буквы и содержать от 4 до 20 символов.';
+        errors.username = 'Логин должен начинаться с буквы и содержать от 4 до 20 символов.';
     }
 
-    if (!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-      errors.email = 'Неверный формат email.';
+    if (!email.match(/^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+        errors.email = 'Неверный формат email.';
     }
 
     if (!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$/)) {
-      errors.password = 'Пароль должен содержать не менее 6 символов, включая одну заглавную букву, одну цифру и один специальный символ.';
+        errors.password = 'Пароль должен содержать не менее 6 символов, включая одну заглавную букву, одну цифру и один специальный символ.';
     }
 
     setErrors(errors);
 
     return Object.keys(errors).length === 0;
-  };
-
+};
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="username">Логин:</label>
       <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
       {errors.username && <span style={{ color: 'red' }}>{errors.username}</span>}
 
-      <label htmlFor="fullname">Полное имя:</label>
+      <label htmlFor="firstname">Имя:</label>
       <input type="text" id="firstname" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+
+      <label htmlFor="secondname">Фамилия:</label>
       <input type="text" id="secondname" value={firstName} onChange={(e) => setSecondName(e.target.value)} />
 
       <label htmlFor="email">Email:</label>

@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styles from './FileManager.module.css'; // Подключение стилей
 
 const FileManager = ({ userId }) => {
   const [files, setFiles] = useState([]);
@@ -19,7 +20,10 @@ const FileManager = ({ userId }) => {
           },
         };
 
-        const response = await axios.get(`/api/files${userId ? `?user_id=${userId}` : ''}`, config);
+        const response = await axios.get(
+          `/api/files${userId ? `?user_id=${userId}` : ''}`,
+          config
+        );
         setFiles(response.data.files);
         setLoading(false);
       } catch (error) {
@@ -69,7 +73,7 @@ const FileManager = ({ userId }) => {
       };
 
       await axios.delete(`/api/files/${fileId}`, config);
-      const updatedFiles = files.filter(file => file.id !== fileId);
+      const updatedFiles = files.filter((file) => file.id !== fileId);
       setFiles(updatedFiles);
     } catch (error) {
       setError(error.message);
@@ -86,7 +90,7 @@ const FileManager = ({ userId }) => {
       };
 
       await axios.patch(`/api/files/${fileId}/rename`, { new_name: newName }, config);
-      const updatedFiles = files.map(file => {
+      const updatedFiles = files.map((file) => {
         if (file.id === fileId) {
           return { ...file, name: newName };
         }
@@ -112,8 +116,19 @@ const FileManager = ({ userId }) => {
   }
 
   return (
-    <div className="file-manager">
+    <div className={styles['file-manager']}>
       <h2>Управление файловым хранилищем</h2>
+      <form onSubmit={uploadFile}>
+        <input type="file" onChange={(e) => setSelectedFile(e.target.files[0])} />
+        <br />
+        <input
+          type="text"
+          placeholder="Комментарий"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <button disabled={uploading || !selectedFile} type="submit">Загрузить файл</button>
+      </form>
       <table>
         <thead>
           <tr>
@@ -126,29 +141,32 @@ const FileManager = ({ userId }) => {
           </tr>
         </thead>
         <tbody>
-          {files.map(file => (
+          {files.map((file) => (
             <tr key={file.id}>
               <td>{file.name}</td>
               <td>{file.comment}</td>
               <td>{file.size} КБ</td>
               <td>{new Date(file.upload_date).toLocaleDateString()}</td>
-              <td>{file.last_download ? new Date(file.last_download).toLocaleDateString() : '-'}</td>
+              <td>
+                {file.last_download
+                  ? new Date(file.last_download).toLocaleDateString()
+                  : '-'}
+              </td>
               <td>
                 <button onClick={() => deleteFile(file.id)}>Удалить</button>
-                <button onClick={() => renameFile(file.id, prompt('Введите новое имя файла'))}>Переименовать</button>
+                <button
+                  onClick={() =>
+                    renameFile(file.id, prompt('Введите новое имя файла'))
+                  }
+                >
+                  Переименовать
+                </button>
                 <button onClick={() => copyShareLink(file.id)}>Копировать ссылку</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <form onSubmit={uploadFile}>
-        <label htmlFor="file">Выберите файл для загрузки:</label>
-        <input type="file" id="file" onChange={(e) => setSelectedFile(e.target.files[0])} required />
-        <label htmlFor="comment">Комментарий:</label>
-        <textarea id="comment" rows="3" value={comment} onChange={(e) => setComment(e.target.value)} />
-        <button disabled={uploading}>Загрузить</button>
-      </form>
     </div>
   );
 };
